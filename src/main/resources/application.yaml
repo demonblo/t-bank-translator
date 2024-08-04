@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: translator
+
+integration:
+  translate:
+    url: https://translate.api.cloud.yandex.net/translate/v2/translate
