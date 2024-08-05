@@ -7,3 +7,7 @@ integration:
     url: https://translate.api.cloud.yandex.net/translate/v2/translate
   auth:
     url: https://iam.api.cloud.yandex.net/iam/v1/tokens
+  multithreading:
+    corePoolSize: 3
+    maxPoolSize: 50
+    queueCapacity: 25
