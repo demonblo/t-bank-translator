@@ -27,4 +27,4 @@ target/
 !/src/test//target/
 
 # Private keys
-src/resources/keys/
+/src/main/resources/keys/
