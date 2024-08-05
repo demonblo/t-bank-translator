@@ -25,3 +25,6 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !/src/main//target/
 !/src/test//target/
+
+# Private keys
+src/resources/keys/

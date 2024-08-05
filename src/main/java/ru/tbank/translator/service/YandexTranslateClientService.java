@@ -12,10 +12,10 @@ import ru.tbank.translator.dto.TranslateResponseDTO;
 public class YandexTranslateClientService {
     @Value("${integration.translate.url}")
     private String translateUrl;
-    private final RestTemplate restTemplate;
+    private final RestTemplate translateRestTemplate;
 
     public TranslateResponseDTO translate(TranslateRequestDTO request) {
-        return restTemplate.postForObject(
+        return translateRestTemplate.postForObject(
                 translateUrl,
                 request,
                 TranslateResponseDTO.class

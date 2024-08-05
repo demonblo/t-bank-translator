@@ -27,5 +27,6 @@ public class TranslationService {
             var responseDTO = yandexTranslateClientService.translate(requestDTO);
             words.add(responseDTO.getTranslations()[0].getText());
         }
+        System.out.println(words);
     }
 }
