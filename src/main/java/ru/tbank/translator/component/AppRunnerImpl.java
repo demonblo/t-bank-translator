@@ -6,6 +6,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import ru.tbank.translator.service.TranslationService;
 
+import java.util.Arrays;
+
 @Component
 @RequiredArgsConstructor
 public class AppRunnerImpl implements ApplicationRunner {
@@ -17,6 +19,6 @@ public class AppRunnerImpl implements ApplicationRunner {
         if (sourceArgs == null || sourceArgs.length < 3) {
             throw new IllegalArgumentException("Input is invalid!");
         }
-        translationService.translate(sourceArgs);
+        translationService.translate(sourceArgs[0], sourceArgs[1], Arrays.stream(sourceArgs).skip(2).toList());
     }
 }

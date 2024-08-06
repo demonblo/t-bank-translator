@@ -10,11 +10,14 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import ru.tbank.translator.mapper.TranslateRequestMapper;
+import ru.tbank.translator.model.Translation;
+import ru.tbank.translator.repository.TranslationRepository;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
@@ -25,19 +28,20 @@ public class TranslationService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final YandexTranslateClientService yandexTranslateClientService;
     private final TranslateRequestMapper translateRequestMapper;
+    private final TranslationRepository translationRepository;
     @Qualifier("asyncExecutor")
     private final ThreadPoolTaskExecutor asyncExecutor;
 
-    public void translate(String... args) {
+    public void translate(String sourceLanguage, String targetLanguage, List<String> inputWords) throws UnknownHostException {
         List<Callable<String>> callables = new ArrayList<>();
-        String sourceLanguage = args[0];
-        String targetLanguage = args[1];
         List<String> words = new ArrayList<>();
-        for (int i = 2; i < args.length; i++) {
+        Translation translation = new Translation();
+
+        for (var inputWord : inputWords) {
             var requestDTO = translateRequestMapper.argsToRequestDTO(
                     sourceLanguage,
                     targetLanguage,
-                    args[i]
+                    inputWord
             );
             callables.add(
                     () -> yandexTranslateClientService
@@ -71,6 +75,10 @@ public class TranslationService {
                 return;
             }
         }
+        translation.setIpAddress(InetAddress.getLocalHost().getHostAddress());
+        translation.setInputWords(String.join(" ", inputWords));
+        translation.setOutputWords(String.join(" ", words));
+        translationRepository.save(translation);
         logger.info("http 200. " + String.join(" ", words));
 
     }
