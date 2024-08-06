@@ -17,5 +17,5 @@ integration:
     url: https://iam.api.cloud.yandex.net/iam/v1/tokens
   multithreading:
     corePoolSize: 3
-    maxPoolSize: 50
+    maxPoolSize: 500
     queueCapacity: 25

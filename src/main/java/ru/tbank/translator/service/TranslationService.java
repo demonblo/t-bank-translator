@@ -66,12 +66,19 @@ public class TranslationService {
                 var translatedWord = completableFuture.get();
                 words.add(translatedWord);
             } catch (HttpClientErrorException e) {
-                String response = "http " + e.getStatusCode() + ". Ошибка выполнения программы. " + e.getMessage();
+                String response = "http " + e.getStatusCode().value() + ". Ошибка выполнения программы. " + e.getMessage();
                 logger.error(response);
                 return;
-            } catch (Exception e) {
-                String response = "http 500. Ошибка выполнения программы. " + e.getMessage();
-                logger.error(response, e);
+            }  catch (Exception e) {
+                String response;
+                var cause = e.getCause();
+                if (cause instanceof HttpClientErrorException clientErrorException) {
+                    response = "http " + clientErrorException.getStatusCode().value() +
+                            ". Ошибка выполнения программы. " + clientErrorException.getMessage();
+                } else {
+                    response = "http 500. Ошибка выполнения программы. " + e.getMessage();
+                }
+                logger.error(response);
                 return;
             }
         }
