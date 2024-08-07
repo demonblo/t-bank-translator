@@ -50,6 +50,7 @@ public class TranslationService {
                             .getText()
             );
         }
+
         List<Future<String>> completableFutureList = new ArrayList<>();
         for (var callable: callables) {
             try {
@@ -82,11 +83,11 @@ public class TranslationService {
                 return;
             }
         }
+
         translation.setIpAddress(InetAddress.getLocalHost().getHostAddress());
         translation.setInputWords(String.join(" ", inputWords));
         translation.setOutputWords(String.join(" ", words));
         translationRepository.save(translation);
         logger.info("http 200. " + String.join(" ", words));
-
     }
 }

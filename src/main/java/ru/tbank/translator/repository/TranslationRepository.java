@@ -3,5 +3,6 @@ package ru.tbank.translator.repository;
 import ru.tbank.translator.model.Translation;
 
 public interface TranslationRepository {
-    int save(Translation translation);
+    void save(Translation translation);
+    Translation findOneBySourceText(String sourceText);
 }

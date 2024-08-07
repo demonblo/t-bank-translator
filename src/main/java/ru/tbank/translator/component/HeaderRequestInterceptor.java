@@ -15,7 +15,6 @@ public class HeaderRequestInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
             throws IOException {
-        // TODO: add check
         request.getHeaders().set("Authorization", "Bearer " + token);
         return execution.execute(request, body);
     }
